@@ -111,6 +111,7 @@ public class LoginController {
 					log.info("Enter role");
 					String role = checkRole();
 					investor1.setRole(role);
+					investor1.setNumberOfStocks(0);
 					try {
 						investorService.investorRegistration(investor1);
 						log.info("Registered sucessfully");

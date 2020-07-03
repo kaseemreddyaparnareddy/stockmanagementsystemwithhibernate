@@ -28,7 +28,7 @@ public class InvestorBean implements Serializable {
 	@Column
 	@ToString.Exclude
 	private String password;
-	@Column(nullable = false)
+	@Column
 	private int numberOfStocks;
 	@Column(name = "mobileno")
 	private long mobile_number;

@@ -17,12 +17,11 @@ import com.jfsfeb.stockmanagementsystemwithjpawithhibernet.dto.StockRequestBean;
 import com.jfsfeb.stockmanagementsystemwithjpawithhibernet.exception.StockManagementSystemExceptions;
 
 public class AdminDAOImplementation implements AdminDAO {
-	EntityManagerFactory factory = null;
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory("TestPersistence");
 
 	public AdminBean adminLogin(String email, String password) {
 
 		EntityManager manager = null;
-		factory = Persistence.createEntityManagerFactory("TestPersistence");
 		manager = factory.createEntityManager();
 		String query = "select a from AdminBean a where a.email = :emailId and a.password =:password and role='admin'";
 		TypedQuery<AdminBean> adminInfo = manager.createQuery(query, AdminBean.class);
@@ -34,7 +33,6 @@ public class AdminDAOImplementation implements AdminDAO {
 			throw new StockManagementSystemExceptions("Invalid Login Credentials");
 		} finally {
 			manager.close();
-			factory.close();
 		}
 	}
 
@@ -44,7 +42,6 @@ public class AdminDAOImplementation implements AdminDAO {
 		String jpql = null;
 		boolean flag = false;
 		try {
-			factory = Persistence.createEntityManagerFactory("TestPersistence");
 			manager = factory.createEntityManager();
 			jpql = "select m from ManagerBean m ";
 			TypedQuery<ManagerBean> query = manager.createQuery(jpql, ManagerBean.class);
@@ -70,7 +67,6 @@ public class AdminDAOImplementation implements AdminDAO {
 
 		} finally {
 			manager.close();
-			factory.close();
 		}
 	}
 
@@ -78,7 +74,6 @@ public class AdminDAOImplementation implements AdminDAO {
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
 		try {
-			factory = Persistence.createEntityManagerFactory("TestPersistence");
 			manager = factory.createEntityManager();
 			transaction = manager.getTransaction();
 			transaction.begin();
@@ -91,7 +86,6 @@ public class AdminDAOImplementation implements AdminDAO {
 			throw new StockManagementSystemExceptions("Manager can't be removed");
 		} finally {
 			manager.close();
-			factory.close();
 		}
 
 	}
@@ -100,7 +94,6 @@ public class AdminDAOImplementation implements AdminDAO {
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
 		try {
-			factory = Persistence.createEntityManagerFactory("TestPersistence");
 			manager = factory.createEntityManager();
 			transaction = manager.getTransaction();
 			transaction.begin();
@@ -112,7 +105,6 @@ public class AdminDAOImplementation implements AdminDAO {
 			throw new StockManagementSystemExceptions("Company is already added");
 		} finally {
 			manager.close();
-			factory.close();
 		}
 	}
 
@@ -120,7 +112,6 @@ public class AdminDAOImplementation implements AdminDAO {
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
 		try {
-			factory = Persistence.createEntityManagerFactory("TestPersistence");
 			manager = factory.createEntityManager();
 			transaction = manager.getTransaction();
 			transaction.begin();
@@ -133,7 +124,6 @@ public class AdminDAOImplementation implements AdminDAO {
 			throw new StockManagementSystemExceptions("Company can't be removed");
 		} finally {
 			manager.close();
-			factory.close();
 		}
 
 	}
@@ -141,7 +131,6 @@ public class AdminDAOImplementation implements AdminDAO {
 	public List<InvestorBean> getAllInvestors() {
 		EntityManager manager = null;
 		try {
-			factory = Persistence.createEntityManagerFactory("TestPersistence");
 			manager = factory.createEntityManager();
 			String jpql = "select i from InvestorBean i where role='investor'";
 			TypedQuery<InvestorBean> query = manager.createQuery(jpql, InvestorBean.class);
@@ -155,14 +144,12 @@ public class AdminDAOImplementation implements AdminDAO {
 			throw new StockManagementSystemExceptions(e.getMessage());
 		} finally {
 			manager.close();
-			factory.close();
 		}
 	}
 
 	public List<StockRequestBean> investorRequest() {
 		EntityManager manager = null;
 		try {
-			factory = Persistence.createEntityManagerFactory("TestPersistence");
 			manager = factory.createEntityManager();
 			String jpql = "select s from StockRequestBean s";
 			TypedQuery<StockRequestBean> query = manager.createQuery(jpql, StockRequestBean.class);
@@ -176,7 +163,6 @@ public class AdminDAOImplementation implements AdminDAO {
 			throw new StockManagementSystemExceptions(e.getMessage());
 		} finally {
 			manager.close();
-			factory.close();
 		}
 	}
 
@@ -192,7 +178,6 @@ public class AdminDAOImplementation implements AdminDAO {
 		int reqStockId = 0;
 		int reqUserId = 0;
 		try {
-			factory = Persistence.createEntityManagerFactory("TestPersistence");
 			manager = factory.createEntityManager();
 			transaction = manager.getTransaction();
 
@@ -203,6 +188,9 @@ public class AdminDAOImplementation implements AdminDAO {
 				reqStockId = info.getStockId();
 				reqUserId = info.getStockId();
 				transaction.begin();
+				System.out.println("hyderabad");
+				String jpql = "select r from InvestorBean r";
+				TypedQuery<InvestorBean> query = manager.createQuery(jpql, InvestorBean.class);
 				user = manager.find(InvestorBean.class, reqUserId);
 				noOfStocks = user.getNumberOfStocks();
 				++noOfStocks;
@@ -215,9 +203,9 @@ public class AdminDAOImplementation implements AdminDAO {
 				stockInfo = manager.find(StockBean.class, reqStockId);
 				transaction.commit();
 				transaction.begin();
-//				info = manager.find(StockRequestBean.class,rId);
-//				manager.remove(info);
-//				transaction.commit();
+				info = manager.find(StockRequestBean.class,rId);
+				manager.remove(info);
+				transaction.commit();
 			} else {
 				throw new StockManagementSystemExceptions("Invalid Request Id");
 			}
@@ -227,7 +215,6 @@ public class AdminDAOImplementation implements AdminDAO {
 			throw new StockManagementSystemExceptions(e.getMessage());
 		} finally {
 			manager.close();
-			factory.close();
 		}
 
 		return true;
@@ -237,7 +224,6 @@ public class AdminDAOImplementation implements AdminDAO {
 	public List<ManagerBean> getAllManagers() {
 		EntityManager manager = null;
 		try {
-			factory = Persistence.createEntityManagerFactory("TestPersistence");
 			manager = factory.createEntityManager();
 			String jpql = "select m from ManagerBean m where role='manager'";
 			TypedQuery<ManagerBean> query = manager.createQuery(jpql, ManagerBean.class);
@@ -251,7 +237,6 @@ public class AdminDAOImplementation implements AdminDAO {
 			throw new StockManagementSystemExceptions(e.getMessage());
 		} finally {
 			manager.close();
-			factory.close();
 		}
 	}
 
@@ -259,7 +244,6 @@ public class AdminDAOImplementation implements AdminDAO {
 	public List<CompanyBean> getAllCompanies() {
 		EntityManager manager = null;
 		try {
-			factory = Persistence.createEntityManagerFactory("TestPersistence");
 			manager = factory.createEntityManager();
 			String jpql = "select c from CompanyBean c";
 			TypedQuery<CompanyBean> query = manager.createQuery(jpql, CompanyBean.class);
@@ -273,7 +257,6 @@ public class AdminDAOImplementation implements AdminDAO {
 			throw new StockManagementSystemExceptions(e.getMessage());
 		} finally {
 			manager.close();
-			factory.close();
 		}
 	}
 }

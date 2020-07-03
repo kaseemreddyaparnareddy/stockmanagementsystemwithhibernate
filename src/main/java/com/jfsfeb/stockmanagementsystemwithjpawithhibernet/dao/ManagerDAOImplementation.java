@@ -12,11 +12,10 @@ import com.jfsfeb.stockmanagementsystemwithjpawithhibernet.dao.ManagerDAO;
 import com.jfsfeb.stockmanagementsystemwithjpawithhibernet.dto.ManagerBean;
 
 public class ManagerDAOImplementation implements ManagerDAO {
-	EntityManagerFactory factory = null;
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory("TestPersistence");;
 
 	public ManagerBean managerLogin(String email, String password) {
 		EntityManager manager = null;
-		factory = Persistence.createEntityManagerFactory("TestPersistence");
 		manager = factory.createEntityManager();
 		String query = "select m from ManagerBean m where m.email = :emailId and m.password =:password and role='manager'";
 		TypedQuery<ManagerBean> managerInfo = manager.createQuery(query, ManagerBean.class);
@@ -28,12 +27,10 @@ public class ManagerDAOImplementation implements ManagerDAO {
 			throw new StockManagementSystemExceptions("Invalid Login Credentials");
 		} finally {
 			manager.close();
-			factory.close();
 		}
 	}
 
 	public boolean changePassword(int id, String oldPassword, String newPassword) {
-		EntityManagerFactory factory = null;
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
 
@@ -41,7 +38,6 @@ public class ManagerDAOImplementation implements ManagerDAO {
 		String password = null;
 
 		try {
-			factory = Persistence.createEntityManagerFactory("TestPersistence");
 			manager = factory.createEntityManager();
 			transaction = manager.getTransaction();
 
@@ -58,7 +54,6 @@ public class ManagerDAOImplementation implements ManagerDAO {
 			throw new StockManagementSystemExceptions(e.getMessage());
 		} finally {
 			manager.close();
-			factory.close();
 		}
 		return true;
 	}
@@ -67,7 +62,6 @@ public class ManagerDAOImplementation implements ManagerDAO {
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
 		try {
-			factory = Persistence.createEntityManagerFactory("TestPersistence");
 			manager = factory.createEntityManager();
 			transaction = manager.getTransaction();
 			transaction.begin();
@@ -79,7 +73,6 @@ public class ManagerDAOImplementation implements ManagerDAO {
 			throw new StockManagementSystemExceptions("stock is already added");
 		} finally {
 			manager.close();
-			factory.close();
 		}
 	}
 
@@ -88,7 +81,6 @@ public class ManagerDAOImplementation implements ManagerDAO {
 		EntityManager manager = null;
 		EntityTransaction transaction = null;
 		try {
-			factory = Persistence.createEntityManagerFactory("TestPersistence");
 			manager = factory.createEntityManager();
 			transaction = manager.getTransaction();
 			transaction.begin();
@@ -101,7 +93,6 @@ public class ManagerDAOImplementation implements ManagerDAO {
 			throw new StockManagementSystemExceptions("stock can't be removed");
 		} finally {
 			manager.close();
-			factory.close();
 		}
 
 	}

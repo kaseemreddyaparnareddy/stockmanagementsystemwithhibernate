@@ -8,6 +8,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
+
 import com.jfsfeb.stockmanagementsystemwithjpawithhibernet.dto.InvestorBean;
 import com.jfsfeb.stockmanagementsystemwithjpawithhibernet.dto.StockBean;
 import com.jfsfeb.stockmanagementsystemwithjpawithhibernet.dto.StockRequestBean;
@@ -30,7 +31,7 @@ public class InvestorDAOImplementation implements InvestorDAO {
 
 			for (InvestorBean bean : users) {
 				if (bean.getEmail().equalsIgnoreCase(investor.getEmail())) {
-					throw new StockManagementSystemExceptions("This EmailId already exist ");
+					throw new StockManagementSystemExceptions("This EmailId already exist");
 				}
 
 			}
@@ -46,7 +47,8 @@ public class InvestorDAOImplementation implements InvestorDAO {
 			}
 			throw new StockManagementSystemExceptions(e.getMessage());
 
-		} finally {
+		}
+			finally {
 			manager.close();
 		}
 	}
