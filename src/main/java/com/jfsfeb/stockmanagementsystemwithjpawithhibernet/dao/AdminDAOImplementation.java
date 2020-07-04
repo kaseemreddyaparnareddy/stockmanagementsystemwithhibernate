@@ -192,19 +192,22 @@ public class AdminDAOImplementation implements AdminDAO {
 				TypedQuery<InvestorBean> query = manager.createQuery(jpql, InvestorBean.class);
 				user = manager.find(InvestorBean.class, reqUserId);
 				noOfStocks = user.getNumberOfStocks();
+				if (noOfStocks < 3) {
 				++noOfStocks;
 				System.out.println("No Of Stocks Bought" + noOfStocks);
 
 				user.setNumberOfStocks(noOfStocks);
 				transaction.commit();
-
+				} else {
+					throw new StockManagementSystemExceptions("Limit exceeded to accept stocks");
+				}
 				transaction.begin();
 				stockInfo = manager.find(StockBean.class, reqStockId);
 				transaction.commit();
-				transaction.begin();
-				info = manager.find(StockRequestBean.class,rId);
-				manager.remove(info);
-				transaction.commit();
+//				transaction.begin();
+//				info = manager.find(StockRequestBean.class,rId);
+//				manager.remove(info);
+//				transaction.commit();
 			} else {
 				throw new StockManagementSystemExceptions("Invalid Request Id");
 			}

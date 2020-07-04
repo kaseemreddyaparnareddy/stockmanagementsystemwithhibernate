@@ -92,7 +92,6 @@ public class InvestorDAOImplementation implements InvestorDAO {
 
 		StockRequestBean stockInfo = new StockRequestBean();
 		StockBean stockBean = new StockBean();
-		InvestorBean user = new InvestorBean();
 		String jpql = null;
 
 		try {
@@ -109,19 +108,13 @@ public class InvestorDAOImplementation implements InvestorDAO {
 						throw new StockManagementSystemExceptions("This Stock Request is Already Placed By SomeOne ");
 					}
 				}
-				user = manager.find(InvestorBean.class, investorId);
-				int noOfStocks = user.getNumberOfStocks();
-				if (noOfStocks < 3) {
+				stockInfo.setInvestorId(investorId);
+				stockInfo.setStockId(stockId);
+				transaction.begin();
+				manager.persist(stockInfo);
+				transaction.commit();
+				return true;
 
-					stockInfo.setInvestorId(investorId);
-					stockInfo.setStockId(stockId);
-					transaction.begin();
-					manager.persist(stockInfo);
-					transaction.commit();
-					return true;
-				} else {
-					throw new StockManagementSystemExceptions("Limit exceeded to buy stocks");
-				}
 			} else {
 				throw new StockManagementSystemExceptions("This Stock Is Not Available To Buy");
 			}
