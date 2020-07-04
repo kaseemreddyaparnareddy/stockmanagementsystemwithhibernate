@@ -8,7 +8,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
-
 import com.jfsfeb.stockmanagementsystemwithjpawithhibernet.dto.InvestorBean;
 import com.jfsfeb.stockmanagementsystemwithjpawithhibernet.dto.StockBean;
 import com.jfsfeb.stockmanagementsystemwithjpawithhibernet.dto.StockRequestBean;
@@ -47,8 +46,7 @@ public class InvestorDAOImplementation implements InvestorDAO {
 			}
 			throw new StockManagementSystemExceptions(e.getMessage());
 
-		}
-			finally {
+		} finally {
 			manager.close();
 		}
 	}
@@ -94,6 +92,7 @@ public class InvestorDAOImplementation implements InvestorDAO {
 
 		StockRequestBean stockInfo = new StockRequestBean();
 		StockBean stockBean = new StockBean();
+		InvestorBean user = new InvestorBean();
 		String jpql = null;
 
 		try {
@@ -110,12 +109,19 @@ public class InvestorDAOImplementation implements InvestorDAO {
 						throw new StockManagementSystemExceptions("This Stock Request is Already Placed By SomeOne ");
 					}
 				}
-				stockInfo.setInvestorId(investorId);
-				stockInfo.setStockId(stockId);
-				transaction.begin();
-				manager.persist(stockInfo);
-				transaction.commit();
-				return true;
+				user = manager.find(InvestorBean.class, investorId);
+				int noOfStocks = user.getNumberOfStocks();
+				if (noOfStocks < 3) {
+
+					stockInfo.setInvestorId(investorId);
+					stockInfo.setStockId(stockId);
+					transaction.begin();
+					manager.persist(stockInfo);
+					transaction.commit();
+					return true;
+				} else {
+					throw new StockManagementSystemExceptions("Limit exceeded to buy stocks");
+				}
 			} else {
 				throw new StockManagementSystemExceptions("This Stock Is Not Available To Buy");
 			}

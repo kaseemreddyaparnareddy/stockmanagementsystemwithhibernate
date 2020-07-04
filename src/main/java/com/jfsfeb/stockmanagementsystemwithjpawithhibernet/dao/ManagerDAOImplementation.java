@@ -17,7 +17,7 @@ public class ManagerDAOImplementation implements ManagerDAO {
 	public ManagerBean managerLogin(String email, String password) {
 		EntityManager manager = null;
 		manager = factory.createEntityManager();
-		String query = "select m from ManagerBean m where m.email = :emailId and m.password =:password and role='manager'";
+		String query = "select m from ManagerBean m where m.email = :emailId and m.password =:password";
 		TypedQuery<ManagerBean> managerInfo = manager.createQuery(query, ManagerBean.class);
 		managerInfo.setParameter("emailId", email);
 		managerInfo.setParameter("password", password);

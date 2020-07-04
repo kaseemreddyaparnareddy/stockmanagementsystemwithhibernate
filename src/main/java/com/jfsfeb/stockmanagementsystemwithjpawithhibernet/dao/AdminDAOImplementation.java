@@ -186,9 +186,8 @@ public class AdminDAOImplementation implements AdminDAO {
 			transaction.commit();
 			if (info != null) {
 				reqStockId = info.getStockId();
-				reqUserId = info.getStockId();
+				reqUserId = info.getInvestorId();
 				transaction.begin();
-				System.out.println("hyderabad");
 				String jpql = "select r from InvestorBean r";
 				TypedQuery<InvestorBean> query = manager.createQuery(jpql, InvestorBean.class);
 				user = manager.find(InvestorBean.class, reqUserId);

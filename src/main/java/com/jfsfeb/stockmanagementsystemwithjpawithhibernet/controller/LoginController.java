@@ -12,22 +12,7 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class LoginController {
-	public static final Scanner scanner = new Scanner(System.in);
-	public static String checkRole() {
-		String role = null;
-		boolean flag = false;
-		do {
-			role = scanner.next();
-			if (role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("manager")
-					|| role.equalsIgnoreCase("investor")) {
-				flag = true;
-			} else {
-				System.out.println("Enter role value either user or admin");
-				flag = false;
-			}
-		} while (!flag);
-		return role.toLowerCase();
-	}
+	static Scanner scanner = new Scanner(System.in);
 
 	public static void MainPage() {
 		AdminController adminController = new AdminController();
@@ -108,9 +93,7 @@ public class LoginController {
 						log.error(e.getMessage());
 					}
 					investor1.setMobile_number(investorPhoneNumber);
-					log.info("Enter role");
-					String role = checkRole();
-					investor1.setRole(role);
+					investor1.setRole("investor");
 					investor1.setNumberOfStocks(0);
 					try {
 						investorService.investorRegistration(investor1);

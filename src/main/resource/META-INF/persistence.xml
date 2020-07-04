@@ -15,7 +15,7 @@
 			<property name="javax.persistence.jdbc.driver"
 				value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:mysql://localhost:3306/stocks_new_db?createDatabaseIfNotExist=true" />
+				value="jdbc:mysql://localhost:3306/stocks_new_DataBase?createDatabaseIfNotExist=true" />
 			<property name="javax.persistence.jdbc.user" value="aparna" />
 			<property name="javax.persistence.jdbc.password"
 				value="route" />

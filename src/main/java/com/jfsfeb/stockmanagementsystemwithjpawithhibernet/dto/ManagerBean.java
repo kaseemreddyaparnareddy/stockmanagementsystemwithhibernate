@@ -12,7 +12,7 @@ import lombok.ToString;
 
 @Data
 @Entity
-@Table(name = "user_info")
+@Table(name = "manager_info")
 public class ManagerBean implements Serializable {
 	/**
 	 * 
@@ -30,7 +30,7 @@ public class ManagerBean implements Serializable {
 	private String email;
 	@Column(name = "company_name")
 	private String companyName;
-	@Column
-	private String role;
+//	@Column
+//	private String role;
 
 }

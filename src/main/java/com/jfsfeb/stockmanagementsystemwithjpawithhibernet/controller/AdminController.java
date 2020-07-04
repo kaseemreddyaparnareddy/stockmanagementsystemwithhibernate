@@ -102,9 +102,6 @@ public class AdminController {
 					log.error(smse.getMessage());
 				}
 				managerBean.setCompanyName(companyName);
-				log.info("Enter role");
-				String role = LoginController.checkRole();
-				managerBean.setRole(role);
 				try {
 					boolean isAdded = adminService.addManager(managerBean);
 					if (isAdded) {
